@@ -5,12 +5,11 @@ import admin_priv
 
 # Ask for admin privileges
 admin_priv.run_as_admin()
-
-# Get paths
-#script_path = os.path.abspath("run_code.py")  # Path to your conversion script
-#python_exe = sys.executable  # Ensure it's python.exe, not pythonw.exe
 python_exe= sys.executable.replace("python.exe", "pythonw.exe")
+
+#script_path = os.path.abspath("run_code.py")  # Path to your conversion script
 script_dir = os.path.dirname(os.path.abspath(sys.executable))  # Get the bundled EXE directory
+#change script path to select exe instead of run_code.py
 script_path = os.path.join(script_dir, "run_code.exe")
 # Image file extensions
 image_extensions = [
@@ -18,9 +17,6 @@ image_extensions = [
     ".webp", ".ico", ".jfif", ".svg", ".heic", ".heif", ".raw",
     ".psd", ".ai", ".indd", ".eps",".avif"
 ]
-# image_extensions = [
-#     ".jpg", ".jpeg"
-# ]
 
 try:
     for ext in image_extensions:
@@ -48,9 +44,12 @@ try:
 
             # Command key
             command_key = reg.CreateKey(sub_key, "command")
+            #this below code is for running the code via exe
             reg.SetValue(command_key, "", reg.REG_SZ,
                          f'"{script_path}" "{fmt}" "%1"')
-
+            #this below code is for running the code via py script 
+            # reg.SetValue(command_key, "", reg.REG_SZ,
+            #              f'"{python_exe}" "{script_path}" "{fmt}" "%1"')
             reg.CloseKey(sub_key)
             reg.CloseKey(command_key)
 
